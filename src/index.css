@@ -1,0 +1,70 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+#root{
+    margin: 20px;
+}
+table{
+  text-align: center;
+  
+}
+#form{
+  display: flex;
+  justify-content: center;
+
+}
+#form article{
+  background-color:#F1F5F9;
+  padding: 15px;
+  border-radius: 30px;
+}
+#form article input,
+#form article select,
+#form article button{
+  width: 100%;
+  margin-bottom: 10px;
+  border: none;
+  padding: 4px;
+  border-radius: 5px;
+}
+#form article input,
+#form article select{
+  border: solid 1px grey;
+}
+table #actions{
+  display: flex;
+  justify-content: space-around;
+}
+table #actions button{
+  width: 30%;
+}
+button{
+  padding: 4px;
+  border-radius: 5px;
+}
+#form article button{
+  background-color:#2563EB;
+  color: white;
+}
+table  #delete{
+  background-color: #DC2626;
+  color: white;
+}
+table  #update{
+  background-color: #16A34A;
+  color: white;
+}
+table  #modify{
+  background-color: #F59E0B;
+}
+table{
+  border-collapse: collapse;
+  margin-top: 10px;
+  width: 100%
+
+}
+td,th{
+  padding: 5px;
+}
