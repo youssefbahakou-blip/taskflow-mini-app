@@ -25,11 +25,12 @@ function App() {
       const newTask = {
         id : Date.now(),
         title  : Title,
-        dueDate : DueDate,
+        startDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,        dueDate : DueDate,
         priority : Priority,
         status : Status
       }
-      if(Tasks.find(task => task.title === newTask.title)){
+      if (Tasks.some(task =>
+        task.title.toLowerCase() === newTask.title.toLowerCase())){
         alert('you have already this task')
         return ;
       }
@@ -77,19 +78,21 @@ function App() {
     setPriority('');
     setStatus('');
   }
-  function DeleteTask(id){
-    setTasks(Tasks.filter(task => task.id !== id));
-    setEditingId(null);
+  function DeleteTask(id) {
+  setTasks(Tasks.filter(task => task.id !== id));
 
+  if (editingId === id) {
+    setEditingId(null);
     setTitle('');
     setDueDate('');
     setPriority('');
     setStatus('');
   }
+}
   
   return(
     <>
-        <section id='form'>
+        <section id='firstSection'>
           <article>
             <h1>tasks manager app</h1>
             Title :
@@ -118,25 +121,24 @@ function App() {
             <br />
             <button onClick={()=>{AddTask()}} disabled={editingId !== null}>Add</button>
           </article>
-        </section>
-        <section>
           <article>
             <TaskChart tasks={Tasks} />
           </article>
         </section>
+        <section className='search'>
+          <label htmlFor="Search">Search :</label>
+          <input type="text"
+            placeholder="Search tasks by title..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </section>
         <section>
           <article>
             <h2>tasks table</h2>
+            <p>before updating you should modify the values first</p>
             <table border={1}>
               <thead>
-                <tr>
-                  <td><input type="text"
-                      placeholder="Search tasks by title..."
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                  />
-                  </td>
-                </tr>
                 <tr>
                   <th>Title</th>
                   <th>start Date</th>
@@ -151,7 +153,7 @@ function App() {
                   return(
                       <tr key={Task.id}>
                         <td>{Task.title}</td>
-                        <td>{Task.id}</td>
+                        <td>{Task.startDate}</td>
                         <td>{Task.dueDate}</td>
                         <td>{Task.priority}</td>
                         <td>{Task.status}</td>
@@ -165,7 +167,21 @@ function App() {
                 })}
               </tbody>
             </table>
-          <p>before updating you should modify the values first</p>
+          </article>
+        </section>
+        <h3>Number of Pending Tasks</h3>
+        <section className='lastSection'>
+          <article>
+            <h3>Number of in progress tasks</h3>
+            <p>{filteredTasks.filter(Task => Task.status === 'Pending').length}</p>
+          </article>
+          <article>
+            <h3>Number of In progress tasks</h3>
+            <p>{filteredTasks.filter(Task => Task.status === 'In Progress').length}</p>
+          </article>
+          <article>
+            <h3>Number of completed tasks</h3>
+            <p>{filteredTasks.filter(Task => Task.status === 'Completed').length}</p>
           </article>
         </section>
 

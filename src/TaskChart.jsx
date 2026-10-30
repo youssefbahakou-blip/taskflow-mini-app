@@ -36,16 +36,27 @@ function TaskChart({ tasks }) {
             dataKey="value"
             nameKey="name"
             cx="50%"
-            cy="50%"
+            cy="45%"
             innerRadius={60}
             outerRadius={100}
             label={({ name, percent }) =>
-              `${name}: ${(percent * 100).toFixed(0)}%`
+              percent > 0
+                ? `${name}: ${(percent * 100).toFixed(0)}%`
+                : ''
             }
           />
-
+        
           <Tooltip />
-          <Legend />
+          
+          <Legend
+            verticalAlign="bottom"
+            align="center"
+            layout="horizontal"
+            wrapperStyle={{
+              paddingTop: '10px',
+              width: '100%'
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
