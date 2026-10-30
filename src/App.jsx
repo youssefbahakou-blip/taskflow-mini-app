@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 import TaskChart from './TaskChart';
 
 // import './App.css'
@@ -9,8 +9,17 @@ function App() {
   const [Priority,setPriority] = useState('')
   const [Status,setStatus] = useState('')
   const [editingId, setEditingId] = useState(null);
-  const [Tasks,setTasks] = useState([])
-  
+  const [search, setSearch] = useState("");
+  const [Tasks,setTasks] = useState(()=>{
+    const savedTasks = JSON.parse(localStorage.getItem('tasks'));
+    return savedTasks ? savedTasks : [] 
+  })
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(Tasks));
+  }, [Tasks]);
+  const filteredTasks = Tasks.filter(task =>
+    task.title.toLowerCase().includes(search.toLowerCase())
+  );
   function AddTask(){
     if([Title,DueDate,Priority,Status].every(value => value.trim() !== "")){
       const newTask = {
@@ -121,6 +130,14 @@ function App() {
             <table border={1}>
               <thead>
                 <tr>
+                  <td><input type="text"
+                      placeholder="Search tasks by title..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                  />
+                  </td>
+                </tr>
+                <tr>
                   <th>Title</th>
                   <th>start Date</th>
                   <th>Due Date</th>
@@ -130,7 +147,7 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {Tasks.map((Task)=>{
+                {filteredTasks.map((Task)=>{
                   return(
                       <tr key={Task.id}>
                         <td>{Task.title}</td>
