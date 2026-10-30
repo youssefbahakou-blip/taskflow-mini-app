@@ -7,16 +7,16 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-function TaskChart({ tasks }) {
-  const pending = tasks.filter(
+function TaskChart({ filteredTasks }) {
+  const pending = filteredTasks.filter(
     task => task.status === 'Pending'
   ).length;
 
-  const inProgress = tasks.filter(
+  const inProgress = filteredTasks.filter(
     task => task.status === 'In Progress'
   ).length;
 
-  const completed = tasks.filter(
+  const completed = filteredTasks.filter(
     task => task.status === 'Completed'
   ).length;
 
